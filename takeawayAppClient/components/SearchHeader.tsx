@@ -1,38 +1,119 @@
-import React from "react";
-import { View, Text, TextInput, Image, StyleSheet } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+    View,
+    Text,
+    TextInput,
+    Image,
+    StyleSheet,
+    FlatList,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableOpacity,
+} from "react-native";
 import theme from "@/constants/theme";
 
+const dummyResults = [
+    { id: '1', title: 'Pizza' },
+    { id: '2', title: 'Sushi' },
+    { id: '3', title: 'Burger' },
+    { id: '4', title: 'Pasta' },
+    { id: '5', title: 'Salad' },
+    { id: '6', title: 'Tacos' },
+    { id: '7', title: 'Steak' },
+    { id: '8', title: 'Ramen' },
+    { id: '9', title: 'Curry' },
+    { id: '10', title: 'Sandwich' },
+];
+
 export default function SearchHeader() {
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredResults, setFilteredResults] = useState<{ id: string; title: string }[]>([]);
+    const [overlayTop, setOverlayTop] = useState(0);
+
+    const searchContainerRef = useRef<View>(null);
+
+    useEffect(() => {
+        const results = dummyResults.filter(item =>
+            item.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredResults(results);
+    }, [searchQuery]);
+
+    const handleLayout = () => {
+        if (searchContainerRef.current) {
+            searchContainerRef.current.measure((x, y, width, height, pageX, pageY) => {
+                setOverlayTop(pageY + height);
+            });
+        }
+    };
+
+    const handleClearInput = () => {
+        setSearchQuery(""); // 清空输入框内容
+    };
+
     return (
-        <View style={styles.searchContainer}>
-            <View style={styles.titleRow}>
-                <Text style={[styles.text,
-                    {
-                        color: theme.colors.background,
-                        fontSize: theme.fontSizes.xLarge,
-                        flexShrink: 1,
-                    }
-                ]}>
-                    Wat wil je vandaag eten?
-                </Text>
-                <Image
-                    source={require("@/assets/images/logo.png")}
-                    style={styles.logo}
-                    resizeMode="contain"
-                />
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+        >
+            <View
+                style={styles.searchContainer}
+                ref={searchContainerRef}
+                onLayout={handleLayout}
+            >
+                <View style={styles.titleRow}>
+                    <Text style={[styles.text,
+                        {
+                            color: theme.colors.background,
+                            fontSize: theme.fontSizes.xLarge,
+                            flexShrink: 1,
+                        }
+                    ]}>
+                        Wat wil je vandaag eten?
+                    </Text>
+                    <Image
+                        source={require("@/assets/images/logo.png")}
+                        style={styles.logo}
+                        resizeMode="contain"
+                    />
+                </View>
+                <View style={styles.inputWrapper}>
+                    <TextInput
+                        style={styles.searchBar}
+                        placeholder="Geef aan wat je wilt eten..."
+                        placeholderTextColor={theme.colors.bodyText}
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                    />
+                    {searchQuery.trim() !== "" && (
+                        <TouchableOpacity onPress={handleClearInput} style={styles.clearButton}>
+                            <Text style={styles.clearButtonText}>×</Text>
+                        </TouchableOpacity>
+                    )}
+                </View>
             </View>
-            <TextInput
-                style={styles.searchBar}
-                placeholder="Geef aan wat je wilt eten..."
-                placeholderTextColor={theme.colors.bodyText}
-            />
-        </View>
+
+            {/* 浮动搜索结果窗口 */}
+            {searchQuery.trim() !== "" && (
+                <View style={[styles.resultsOverlay, { top: overlayTop }]}>
+                    <FlatList
+                        data={filteredResults}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => (
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultText}>{item.title}</Text>
+                            </View>
+                        )}
+                        contentContainerStyle={styles.resultsContainer}
+                    />
+                </View>
+            )}
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     searchContainer: {
-        width: "100%",
         paddingTop: theme.padding.large,
         paddingBottom: theme.padding.large,
         paddingHorizontal: theme.padding.medium,
@@ -44,13 +125,29 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         marginBottom: theme.margin.medium,
     },
-    searchBar: {
-        height: 40,
+    inputWrapper: {
+        flexDirection: "row",
+        alignItems: "center",
         borderColor: theme.colors.bodyText,
         borderWidth: 1,
         borderRadius: 20,
-        paddingLeft: 15,
         backgroundColor: theme.colors.background,
+        paddingLeft: 15,
+    },
+    searchBar: {
+        flex: 1,
+        height: 40,
+        color: theme.colors.bodyText,
+        ...(Platform.OS === "web" && { outlineStyle: "none", }), 
+    },
+    clearButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: 40,
+        height: 40,
+    },
+    clearButtonText: {
+        fontSize: 20,
         color: theme.colors.bodyText,
     },
     logo: {
@@ -59,5 +156,35 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: "left",
+    },
+    resultsOverlay: {
+        position: "absolute",
+        left: 0,
+        right: 0,
+        backgroundColor: theme.colors.background,
+        borderTopWidth: 1,
+        borderTopColor: theme.colors.bodyText,
+        height: 300,
+        overflow: "scroll",
+        zIndex: 10,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+        ...(Platform.OS === "web" && { scrollbarWidth: "none", }), 
+        ...(Platform.OS === "web" && { "&::-webkit-scrollbar": { display: "none" }, }),
+    },
+    resultsContainer: {
+        paddingBottom: 20,
+    },
+    resultItem: {
+        padding: theme.padding.medium,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.bodyText,
+    },
+    resultText: {
+        fontSize: theme.fontSizes.medium,
+        color: theme.colors.bodyText,
     },
 });
