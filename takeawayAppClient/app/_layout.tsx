@@ -1,6 +1,6 @@
-// app/layout.tsx
 import { Tabs } from "expo-router";
-import theme from "@/app/constants/theme";
+import theme from "@/constants/theme";
+
 
 export default function RootLayout() {
     return (
@@ -14,12 +14,11 @@ export default function RootLayout() {
             }}
         >
             <Tabs.Screen
-                name="home"
+                name="index"
                 options={{
-                    title: "首页",
+                    title: "Home",
                 }}
             />
-            {/* 其他需要显示为 Tab 的页面 */}
         </Tabs>
     );
 }
