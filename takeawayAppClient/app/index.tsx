@@ -4,7 +4,6 @@ import React from "react";
 import SearchHeader from "@/components/SearchHeader";
 
 export default function Index() {
-    // 使用 for 循环生成模拟数据
     const items = [];
     for (let i = 1; i <= 50; i++) {
         items.push(`This is item #${i}`);
@@ -12,12 +11,11 @@ export default function Index() {
 
     return (
         <View style={styles.wrapper}>
-            {/* 固定的搜索栏 */}
+
             <View style={styles.header}>
                 <SearchHeader />
             </View>
 
-            {/* 可滚动内容 */}
             <FlatList
                 data={items}
                 keyExtractor={(item, index) => index.toString()}
@@ -56,6 +54,6 @@ const styles = StyleSheet.create({
     },
     text: {
         textAlign: "center",
-        marginVertical: 5, // 添加垂直间距
+        marginVertical: 5,
     },
 });

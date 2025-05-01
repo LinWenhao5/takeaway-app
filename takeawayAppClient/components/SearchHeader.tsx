@@ -48,7 +48,7 @@ export default function SearchHeader() {
     };
 
     const handleClearInput = () => {
-        setSearchQuery(""); // 清空输入框内容
+        setSearchQuery("");
     };
 
     return (
@@ -81,7 +81,7 @@ export default function SearchHeader() {
                     <TextInput
                         style={styles.searchBar}
                         placeholder="Geef aan wat je wilt eten..."
-                        placeholderTextColor={theme.colors.bodyText}
+                        placeholderTextColor={theme.colors.link}
                         value={searchQuery}
                         onChangeText={setSearchQuery}
                     />
@@ -93,7 +93,6 @@ export default function SearchHeader() {
                 </View>
             </View>
 
-            {/* 浮动搜索结果窗口 */}
             {searchQuery.trim() !== "" && (
                 <View style={[styles.resultsOverlay, { top: overlayTop }]}>
                     <FlatList
@@ -102,6 +101,12 @@ export default function SearchHeader() {
                         renderItem={({ item }) => (
                             <View style={styles.resultItem}>
                                 <Text style={styles.resultText}>{item.title}</Text>
+                                <TouchableOpacity
+                                    style={styles.arrowButton}
+                                    onPress={() => console.log(`Selected ${item.title}`)}
+                                >
+                                <Text style={styles.arrowText}>→</Text>
+                            </TouchableOpacity>
                             </View>
                         )}
                         contentContainerStyle={styles.resultsContainer}
@@ -121,8 +126,8 @@ const styles = StyleSheet.create({
     },
     titleRow: {
         flexDirection: "row",
+        justifyContent: "space-between",
         alignItems: "center",
-        justifyContent: "space-evenly",
         marginBottom: theme.margin.medium,
     },
     inputWrapper: {
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         left: 0,
         right: 0,
-        backgroundColor: theme.colors.background,
+        backgroundColor: theme.colors.secondary,
         borderTopWidth: 1,
         borderTopColor: theme.colors.bodyText,
         height: 300,
@@ -179,6 +184,8 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
     resultItem: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         padding: theme.padding.medium,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.bodyText,
@@ -186,5 +193,12 @@ const styles = StyleSheet.create({
     resultText: {
         fontSize: theme.fontSizes.medium,
         color: theme.colors.bodyText,
+    },
+    arrowButton: {
+        paddingHorizontal: 10
+    },
+    arrowText: {
+        fontSize: theme.fontSizes.large,
+        color: theme.colors.primary,
     },
 });
