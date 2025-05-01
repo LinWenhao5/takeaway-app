@@ -62,14 +62,8 @@ export default function SearchHeader() {
                 onLayout={handleLayout}
             >
                 <View style={styles.titleRow}>
-                    <Text style={[styles.text,
-                        {
-                            color: theme.colors.background,
-                            fontSize: theme.fontSizes.xLarge,
-                            flexShrink: 1,
-                        }
-                    ]}>
-                        Wat wil je vandaag eten?
+                    <Text style={[styles.text, { color: theme.colors.onBackground, fontSize: theme.fontSizes.large }]}>
+                        Hallo!{"\n"}Snel iets lekkers kiezen?
                     </Text>
                     <Image
                         source={require("@/assets/images/logo.png")}
@@ -119,16 +113,16 @@ export default function SearchHeader() {
 
 const styles = StyleSheet.create({
     searchContainer: {
-        paddingTop: theme.padding.large,
-        paddingBottom: theme.padding.large,
-        paddingHorizontal: theme.padding.medium,
+        paddingTop: theme.spacing.large,
+        paddingBottom: theme.spacing.large,
+        paddingHorizontal: theme.spacing.medium,
         backgroundColor: theme.colors.secondary,
     },
     titleRow: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        marginBottom: theme.margin.medium,
+        marginBottom: theme.spacing.small,
     },
     inputWrapper: {
         flexDirection: "row",
@@ -156,8 +150,9 @@ const styles = StyleSheet.create({
         color: theme.colors.bodyText,
     },
     logo: {
-        width: theme.image.medium,
+        width: theme.image.small,
         height: theme.image.small,
+        ...(Platform.OS === "web" && { width: theme.image.medium, height: theme.image.small }),
     },
     text: {
         textAlign: "left",
@@ -181,12 +176,13 @@ const styles = StyleSheet.create({
         ...(Platform.OS === "web" && { "&::-webkit-scrollbar": { display: "none" }, }),
     },
     resultsContainer: {
+        zIndex: 10,
         paddingBottom: 20,
     },
     resultItem: {
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: theme.padding.medium,
+        padding: theme.spacing.medium,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.bodyText,
     },

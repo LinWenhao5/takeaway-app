@@ -1,12 +1,12 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import theme from "@/constants/theme";
 import React from "react";
 import SearchHeader from "@/components/SearchHeader";
+import HeaderWithButton from "@/components/HeaderWithButton";
 
 export default function Index() {
-    const items = [];
-    for (let i = 1; i <= 50; i++) {
-        items.push(`This is item #${i}`);
+    const handleButtonPress = () => {
+        console.log("Header button pressed");
     }
 
     return (
@@ -16,22 +16,14 @@ export default function Index() {
                 <SearchHeader />
             </View>
 
-            <FlatList
-                data={items}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.scrollContent}
-                renderItem={({ item }) => (
-                    <Text style={[styles.text, { color: theme.colors.primary, fontSize: theme.fontSizes.medium }]}>
-                        {item}
-                    </Text>
-                )}
-                ListHeaderComponent={
-                    <Text style={[styles.text, { color: theme.colors.bodyText, fontSize: theme.fontSizes.medium }]}>
-                        Welcome to Takeaway App!
-                    </Text>
-                }
-                keyboardShouldPersistTaps="handled"
-            />
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+                <HeaderWithButton
+                    title="Categorieën"
+                    buttonText="Meer Bekijken"
+                    onButtonPress={handleButtonPress}
+                />
+
+            </ScrollView>
         </View>
     );
 }
@@ -50,7 +42,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContent: {
-        paddingTop: 300,
+        paddingTop: 230,
     },
     text: {
         textAlign: "center",

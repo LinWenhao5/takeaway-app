@@ -19,15 +19,11 @@ const theme = {
         large: 20,
         xLarge: 30,
     },
-    padding: {
-        small: 10,
-        medium: 20,
-        large: 40,
-    },
-    margin: {
-        small: 5,
-        medium: 10,
-        large: 15,
+    fontWeights: {
+        light: 300,
+        normal: 500,
+        medium: 500,
+        bold: 700,
     },
     image: {
         small: 100,
