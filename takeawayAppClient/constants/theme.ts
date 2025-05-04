@@ -9,11 +9,13 @@ const theme = {
         link: "#F28E8C",
     },
     spacing: {
+        xSmall: 4,
         small: 8,
         medium: 16,
         large: 24,
     },
     fontSizes: {
+        xSmall: 10,
         small: 12,
         medium: 16,
         large: 20,
@@ -26,9 +28,22 @@ const theme = {
         bold: 700,
     },
     image: {
+        xSmall: 60,
         small: 100,
         medium: 250,
         large: 500,
+    },
+    container: {
+        xSmall: 100,
+        small: 150,
+        medium: 250,
+        large: 350,
+    },
+    borderRadius: {
+        xSmall: 2,
+        small: 5,
+        medium: 15,
+        large: 25,
     }
 };
 

@@ -129,9 +129,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderColor: theme.colors.bodyText,
         borderWidth: 1,
-        borderRadius: 20,
+        borderRadius: theme.borderRadius.large,
         backgroundColor: theme.colors.background,
-        paddingLeft: 15,
+        paddingLeft: theme.spacing.medium,
     },
     searchBar: {
         flex: 1,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     },
     resultsContainer: {
         zIndex: 10,
-        paddingBottom: 20,
+        paddingBottom: theme.spacing.large,
     },
     resultItem: {
         flexDirection: "row",
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         color: theme.colors.bodyText,
     },
     arrowButton: {
-        paddingHorizontal: 10
+        paddingHorizontal: theme.spacing.small,
     },
     arrowText: {
         fontSize: theme.fontSizes.large,

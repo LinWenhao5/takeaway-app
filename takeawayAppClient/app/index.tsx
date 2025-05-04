@@ -1,13 +1,24 @@
 import { View, StyleSheet, ScrollView } from "react-native";
 import theme from "@/constants/theme";
 import React from "react";
-import SearchHeader from "@/components/SearchHeader";
-import HeaderWithButton from "@/components/HeaderWithButton";
+import SearchHeader from "@/components/home/SearchHeader";
+import { FoodCategory } from "@/components/home/types/FoodCategory";
+import HorizontalCategoriesList from "@/components/home/HorizontalCategoriesList";
+
+const categories: FoodCategory[] = [
+    { id: "1", name: "Combinatie", icon: require("@/assets/images/sushi-box.png") },
+    { id: "2", name: "Nigiri", icon: require("@/assets/images/sushi-nigiri.png") },
+    { id: "3", name: "Rol", icon: require("@/assets/images/sushi-rol.png")},
+    { id: "4", name: "Warme Maaltijd", icon: require("@/assets/images/tempura.png") },
+    { id: "5", name: "Salade", icon: require("@/assets/images/salad.png") },
+    { id: "6", name: "Drank", icon: require("@/assets/images/drink.png") },
+];
 
 export default function Index() {
-    const handleButtonPress = () => {
-        console.log("Header button pressed");
-    }
+    const handleCategoryPress = (id: string) => {
+        console.log(`Category pressed: ${id}`);
+    };
+
 
     return (
         <View style={styles.wrapper}>
@@ -17,10 +28,13 @@ export default function Index() {
             </View>
 
             <ScrollView contentContainerStyle={styles.scrollContent}>
-                <HeaderWithButton
-                    title="Categorieën"
-                    buttonText="Meer Bekijken"
-                    onButtonPress={handleButtonPress}
+            
+                <HorizontalCategoriesList
+                    title="Populaire Categorieën"
+                    categories={categories}
+                    onCategoryPress={handleCategoryPress}
+                    buttonText="Bekijk Alles"
+                    onButtonPress={() => console.log("Bekijk Alle Categorieën")}
                 />
 
             </ScrollView>
