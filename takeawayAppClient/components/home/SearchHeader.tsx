@@ -62,7 +62,7 @@ export default function SearchHeader() {
                 onLayout={handleLayout}
             >
                 <View style={styles.titleRow}>
-                    <Text style={[styles.text, { color: theme.colors.onBackground, fontSize: theme.fontSizes.large }]}>
+                    <Text style={[styles.text, { color: theme.colors.title, fontSize: theme.fontSizes.large }]}>
                         Hallo!{"\n"}Snel iets lekkers kiezen?
                     </Text>
                     <Image

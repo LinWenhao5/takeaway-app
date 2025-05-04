@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextStyle, Image, Platform } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, StyleSheet, TextStyle, Image } from "react-native";
 import theme from "@/constants/theme";
 import { FoodCategory } from "./types/FoodCategory";
 
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
         width: theme.container.xSmall,
         height: theme.container.xSmall,
         borderRadius: theme.container.xSmall/2,
-        backgroundColor: theme.colors.onBackground,
+        backgroundColor: theme.colors.secondary,
         justifyContent: "flex-start",
         alignItems: "center",
         marginRight: theme.spacing.small
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     categoryText: {
         fontSize: theme.fontSizes.small,
         fontWeight: theme.fontWeights.bold as TextStyle["fontWeight"],
-        color: theme.colors.background,
+        color: theme.colors.title,
         textAlign: "center",
         flexWrap: "wrap",
         width: "80%",
